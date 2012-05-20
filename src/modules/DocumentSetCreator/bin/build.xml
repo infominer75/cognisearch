@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project DocumentIndexer with Jar-in-Jar Loader">
+<!--this file was created by Eclipse Runnable JAR Export Wizard-->
+<!--ANT 1.7 is required                                        -->
+<target name="create_run_jar">
+<jar destfile="/Users/prahaladdeshpande/java_progs/DocumentIndexer/bin/DocumentIndexer.jar">
+<manifest>
+<attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
+<attribute name="Rsrc-Main-Class" value="DocumentIndexerDriver"/>
+<attribute name="Class-Path" value="."/>
+<attribute name="Rsrc-Class-Path" value="./ mockito-all-1.9.0.jar junit-4.10.jar lucene-core-3.5.0.jar"/>
+</manifest>
+<zipfileset src="jar-in-jar-loader.zip"/>
+<fileset dir="/Users/prahaladdeshpande/java_progs/DocumentIndexer/bin"/>
+<zipfileset dir="/Users/prahaladdeshpande/java_progs/Java Libs/Mockito" includes="mockito-all-1.9.0.jar"/>
+<zipfileset dir="/Users/prahaladdeshpande/java_progs/Java Libs/Junit" includes="junit-4.10.jar"/>
+<zipfileset dir="/Users/prahaladdeshpande/java_progs/Java Libs/Lucene" includes="lucene-core-3.5.0.jar"/>
+</jar>
+</target>
+</project>
