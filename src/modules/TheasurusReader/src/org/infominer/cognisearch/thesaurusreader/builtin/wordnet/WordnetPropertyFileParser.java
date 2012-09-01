@@ -44,13 +44,9 @@ public class WordnetPropertyFileParser
 	private static final String WORDNET_PROP_FILENAME = "wordnet.file.properties.xml";
 	private static final String PROCESSED_WORDNET_PROP_FILENAME_FORMAT = "%s%s%s";
 	
-	public WordnetPropertyFileParser(String filePath) throws ParserConfigurationException, SAXException, IOException 
-	{
-		this(new FileInputStream(new File(filePath)));
-		
-	}
 	
-	WordnetPropertyFileParser(InputStream fileStream) throws ParserConfigurationException, SAXException, IOException
+	
+	public WordnetPropertyFileParser(InputStream fileStream) throws ParserConfigurationException, SAXException, IOException
 	{
 		this.fileStream = fileStream;
 		DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();

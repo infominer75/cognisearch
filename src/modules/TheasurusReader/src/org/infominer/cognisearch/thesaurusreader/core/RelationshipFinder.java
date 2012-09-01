@@ -1,6 +1,7 @@
 package org.infominer.cognisearch.thesaurusreader.core;
 
 import java.util.Set;
+import java.util.SortedSet;
 
 import java.util.Map;
 
@@ -44,7 +45,7 @@ public interface RelationshipFinder
 	 * @param keyWord The term for which the related terms need to be found
 	 * @return A map containing the related terms and their corresponding distance from the keyword
 	 */
-	Map<String,Integer> getRelatedTermsWithDistance(PartOfSpeech partOfSpeech, String keyWord) throws ThesaurusOperationException;
+	TermRelationCollection getRelatedTermsWithDistance(PartOfSpeech partOfSpeech, String keyWord) throws ThesaurusOperationException;
 	
 	/**
 	 * Get the relationship distance between two terms
@@ -53,6 +54,6 @@ public interface RelationshipFinder
 	 * @param relatedTerm The term related to the keyword
 	 * @return The distance between the keyword and the related term
 	 */
-	Integer getDistanceForRelatedRelatedTerm(PartOfSpeech partOfSpeech, String keyWord, String relatedTerm) throws ThesaurusOperationException;
+	Integer getDistanceForRelatedTerm(PartOfSpeech partOfSpeech, String keyWord, String relatedTerm) throws ThesaurusOperationException;
 	
 }

@@ -51,8 +51,8 @@ public class WordnetInitializer implements ThesaurusInitializer
 		
 		try
 		{
-
-			this.propertyFileParser = new WordnetPropertyFileParser(wordnetDictionaryLocation);
+			String propertyFileURI = "file_properties.xml";
+			this.propertyFileParser = new WordnetPropertyFileParser(this.getClass().getResourceAsStream(propertyFileURI));
 			
 		}
 		catch(Exception ex)
@@ -77,7 +77,7 @@ public class WordnetInitializer implements ThesaurusInitializer
 		
 		//initialize the wordnet dictionary based on the configuration file
 		String modifiedPropertiesFilePath = String.format(PROCESSED_WORDNET_PROP_FILENAME_FORMAT, System.getProperty(USER_HOME_DIR_ENV_PROPERTY),
-				System.getProperty(OS_PATH_SEPARATOR), System.getProperty(WORDNET_PROP_FILENAME));
+				System.getProperty(OS_PATH_SEPARATOR), WORDNET_PROP_FILENAME);
 		
 		try
 		{

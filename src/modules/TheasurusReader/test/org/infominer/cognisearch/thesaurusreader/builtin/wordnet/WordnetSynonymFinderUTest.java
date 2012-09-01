@@ -23,30 +23,29 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 
 
-public class WordnetSynonymFinderUTest 
+public class WordnetSynonymFinderUTest extends WordnetThesaurusTest
 {
 	
-	@Mock
-	private Dictionary wordnetMock;
 	
 	private WordnetSynonymFinder underTest;
 	
 	
 	@Before
-	public void setUp()
+	public void setUp() throws Exception
 	{
 		
-		MockitoAnnotations.initMocks(this);
-		underTest = new WordnetSynonymFinder(wordnetMock);
+		setUpWordnetDictionary();
+		underTest = super.wordnet.getSynonymFinder();
 	}
 
 	@Test
 	public void shouldFetchSynonymsForKeyword() throws Exception
 	{
 	
-		Set<String> synoymWordset = underTest.getRelatedTermsForKeyword(PartOfSpeech.NOUN, "sleep");
-		assertNotNull(synoymWordset);
-		
+		Set<String> synonymWordset = underTest.getRelatedTermsForKeyword(PartOfSpeech.NOUN, "sleep");
+		assertNotNull(synonymWordset);
+		assertTrue(synonymWordset.contains("sleep"));
+		assertTrue(synonymWordset.contains("slumber"));
 	}
 	
 }
