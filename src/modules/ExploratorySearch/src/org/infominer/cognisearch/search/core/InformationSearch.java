@@ -1,5 +1,6 @@
 package org.infominer.cognisearch.search.core;
 
+import org.infominer.cognisearch.search.core.exceptions.SearchException;
 import org.infominer.cognisearch.search.dto.SearchResult;
 import org.infominer.cognisearch.search.dto.SearchResultSet;
 
@@ -19,5 +20,5 @@ public interface InformationSearch
 	 * @param keyWord The keyword or phrase to be searched for
 	 * @return {@link SearchResultSet} object that contains all the results for this search.
 	 */
-	SearchResultSet search(String keyWord);
+	SearchResultSet search(String keyWord) throws SearchException;
 }

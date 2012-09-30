@@ -2,77 +2,83 @@ package org.infominer.cognisearch.search.dto;
 
 /**
  * Encapsulates a search result
- * @author prahaladdeshpande
+ * @author infominer
  *
  */
 
-public class SearchResult implements Comparable<SearchResult>
+public class SearchResult 
 {
-	private String fileName;
+	private final String fileName;
 	
-	private int relevanceRank;
+	private final Double relevanceScore;
+	
+	
+	public SearchResult(String fileName, Double relevanceRank)
+	{
+		this.fileName = fileName;
+		this.relevanceScore = relevanceRank;
+	}
 
 	public String getFileName() 
 	{
 		return fileName;
 	}
-
-	public void setFileName(String fileName) 
-	{
-		this.fileName = fileName;
-	}
-	
 	
 
-	public int getRelevanceRank() 
+	public Double getRelevanceScore() 
 	{
-		return relevanceRank;
+		return relevanceScore;
 	}
 
-	public void setRelevanceRank(int relevanceRank) 
-	{
-		this.relevanceRank = relevanceRank;
-	}
 
-	public int compareTo(SearchResult other) 
-	{
-		if(relevanceRank < other.relevanceRank)
-		{
-			return -1;
-		}
-		
-		return (relevanceRank == other.relevanceRank) ? 0 : 1;
-	}
 	
 	@Override
-	public boolean equals(Object o)
+	public boolean equals(Object obj) 
 	{
-		if(!(o instanceof SearchResult))
-		{
-			return false;
-		}
-		
-		if(this == o)
-		{
+		if (this == obj)
 			return true;
-		}
-		
-		SearchResult other = (SearchResult)o;
-		
-		return fileName.equals(other.fileName);
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SearchResult other = (SearchResult) obj;
+		if (fileName == null) {
+			if (other.fileName != null)
+				return false;
+		} else if (!fileName.equals(other.fileName))
+			return false;
+		if (relevanceScore == null) {
+			if (other.relevanceScore != null)
+				return false;
+		} else if (!relevanceScore.equals(other.relevanceScore))
+			return false;
+		return true;
 	}
-	
+
+
+	@Override
+	public String toString() 
+	{
+		StringBuilder stringRepresentation = new StringBuilder();
+		
+		stringRepresentation.append(String.format("%s:%s", "File", fileName));
+		stringRepresentation.append(System.getProperty("line.separator"));
+		stringRepresentation.append(String.format("%s:%f", "Relevance ranking:", relevanceScore));
+		
+		return stringRepresentation.toString();
+	}
+
+
 	@Override
 	public int hashCode()
 	{
-		int hashCode = 0;
-		
-		for(int  i = 0; i < fileName.length(); i++)
-		{
-			hashCode =  hashCode ^ (fileName.charAt(i));
-		}
-		
-		return hashCode;
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((fileName == null) ? 0 : fileName.hashCode());
+		result = prime * result
+				+ ((relevanceScore == null) ? 0 : relevanceScore.hashCode());
+		return result;
 	}
 
 }

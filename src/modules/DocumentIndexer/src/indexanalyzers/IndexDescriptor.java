@@ -9,7 +9,7 @@ import org.apache.lucene.store.FSDirectory;
 
 /**
  * Describes the apache lucene index.
- * @author prahaladdeshpande
+ * @author infominer
  *
  */
 public class IndexDescriptor 

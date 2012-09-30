@@ -7,8 +7,9 @@
 	<classpathentry kind="lib" path="/Users/prahaladdeshpande/java_progs/Java Libs/Junit/junit-dep-4.10.jar"/>
 	<classpathentry kind="lib" path="/Users/prahaladdeshpande/java_progs/Java Libs/Mockito/mockito-all-1.9.0.jar"/>
 	<classpathentry kind="lib" path="/Users/prahaladdeshpande/java_progs/Java Libs/Lucene/lucene-core-3.5.0.jar"/>
-	<classpathentry kind="lib" path="/Users/prahaladdeshpande/java_progs/Java Libs/JWNL/jwnl14-rc2/jwnl.jar"/>
+	<classpathentry kind="lib" path="/Users/prahaladdeshpande/java_progs/Java Libs/JWNL/jwnl14-rc2/jwnl.jar" sourcepath="/Users/prahaladdeshpande/java_progs/Java Libs/JWNL/jwnl14-rc2/src"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/IndexAnalyzer"/>
 	<classpathentry kind="lib" path="/Users/prahaladdeshpande/java_progs/cognisearch/lib/IndexAnalyzer.jar"/>
+	<classpathentry kind="lib" path="/Users/prahaladdeshpande/java_progs/cognisearch/lib/DocumentIndexer.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

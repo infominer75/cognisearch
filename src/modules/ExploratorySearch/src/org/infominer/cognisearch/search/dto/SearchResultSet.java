@@ -1,29 +1,33 @@
 package org.infominer.cognisearch.search.dto;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.SortedSet;
 import java.util.TreeSet;
 
-public class SearchResultSet implements Set<SearchResult> 
-{
+import org.infominer.cognisearch.search.core.SearchRelevanceComparator;
 
-	private TreeSet<SearchResult> searchResultSet;
+public class SearchResultSet implements SortedMap<Double, SortedSet<SearchResult>> 
+{
 	
+	private final SortedMap<Double, SortedSet<SearchResult>> searchResultSet;
+	private final Comparator<SearchResult> comparator;
 	
 	public SearchResultSet()
 	{
-		searchResultSet = new TreeSet<SearchResult>();
+		this(new SearchRelevanceComparator());
 	}
 	
-	public boolean add(SearchResult e) 
+	public SearchResultSet(Comparator<SearchResult> comparator)
 	{
-		return searchResultSet.add(e);
-	}
-
-	public boolean addAll(Collection<? extends SearchResult> c) 
-	{
-		return searchResultSet.addAll(c);
+		this.searchResultSet = new TreeMap<Double, SortedSet<SearchResult>>();
+		this.comparator = comparator;
 	}
 
 	public void clear() 
@@ -32,19 +36,20 @@ public class SearchResultSet implements Set<SearchResult>
 		
 	}
 
-	public boolean contains(Object o) 
+	public boolean containsKey(Object arg0) 
 	{
-		if(!(o instanceof SearchResult))
-		{
-			return false;
-		}
-			
-		return searchResultSet.contains((SearchResult)o);
+		return searchResultSet.containsKey(arg0);
 	}
 
-	public boolean containsAll(Collection<?> c) 
+	public boolean containsValue(Object arg0) 
 	{
-		return searchResultSet.containsAll(c);
+		return searchResultSet.containsValue(arg0);
+	}
+
+	public SortedSet<SearchResult> get(Object arg0) 
+	{
+		
+		return searchResultSet.get(arg0);
 	}
 
 	public boolean isEmpty() 
@@ -52,30 +57,20 @@ public class SearchResultSet implements Set<SearchResult>
 		return searchResultSet.isEmpty();
 	}
 
-	public Iterator<SearchResult> iterator() 
+	public SortedSet<SearchResult> put(Double arg0, SortedSet<SearchResult> arg1) 
 	{
+		return searchResultSet.put(arg0, arg1);
+	}
+
+	public void putAll(Map<? extends Double, ? extends SortedSet<SearchResult>> m) 
+	{
+		searchResultSet.putAll(m);
 		
-		return searchResultSet.iterator();
 	}
 
-	public boolean remove(Object o) 
+	public SortedSet<SearchResult> remove(Object arg0) 
 	{
-		if(!(o instanceof SearchResult))
-		{
-			return false;
-		}
-		
-		return searchResultSet.remove((SearchResult)o);
-	}
-
-	public boolean removeAll(Collection<?> c) 
-	{
-		return searchResultSet.removeAll(c);
-	}
-
-	public boolean retainAll(Collection<?> c) 
-	{
-		return searchResultSet.retainAll(c);
+		return searchResultSet.remove(arg0);
 	}
 
 	public int size() 
@@ -83,16 +78,87 @@ public class SearchResultSet implements Set<SearchResult>
 		return searchResultSet.size();
 	}
 
-	public Object[] toArray() 
+	public Comparator<? super Double> comparator() 
 	{
-		return searchResultSet.toArray();
-	}
-
-	public <T> T[] toArray(T[] a) 
-	{
-		return searchResultSet.toArray(a);
+		return searchResultSet.comparator();
 	}
 
 	
+
+	public Set<Entry<Double, SortedSet<SearchResult>>> entrySet() 
+	{
+		return searchResultSet.entrySet();
+	}
+
+	public Double firstKey() 
+	{
+		return searchResultSet.firstKey();
+	}
+
+	public SortedMap<Double, SortedSet<SearchResult>> headMap(Double arg0) 
+	{
+		return searchResultSet.headMap(arg0);
+	}
+
+	public Set<Double> keySet() 
+	{
+		return searchResultSet.keySet();
+	}
+
+	public Double lastKey() 
+	{
+		return searchResultSet.lastKey();
+	}
+
+	public SortedMap<Double, SortedSet<SearchResult>> subMap(Double arg0, Double arg1) 
+	{
+		return searchResultSet.subMap(arg0, arg1);
+	}
+
+	public SortedMap<Double, SortedSet<SearchResult>> tailMap(Double arg0) 
+	{
+		return searchResultSet.tailMap(arg0);
+	}
+
+	public Collection<SortedSet<SearchResult>> values() 
+	{
+		return searchResultSet.values();
+	}
+	
+	
+	public boolean addSearchResult(SearchResult searchResult)
+	{
+		boolean added = true;
+		
+		if(!searchResultSet.containsKey(searchResult.getRelevanceScore()))
+		{
+			SortedSet<SearchResult> searchResultSet = new TreeSet<SearchResult>(comparator);
+			added = searchResultSet.add(searchResult);
+		}
+		else
+		{
+			added = searchResultSet.get(searchResult.getRelevanceScore()).add(searchResult);
+		}
+		
+		return added;
+	}
+	
+	
+	public boolean removeSearchResult(SearchResult searchResult)
+	{
+		boolean removed = true;
+		
+		if(!searchResultSet.containsKey(searchResult.getRelevanceScore()))
+		{
+			removed = false;
+			
+		}
+		else
+		{
+			removed = searchResultSet.get(searchResult.getRelevanceScore()).remove(searchResult);
+		}
+			
+		return removed;
+	}
 	
 }
