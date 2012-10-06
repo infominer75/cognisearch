@@ -1,6 +1,9 @@
 package org.infominer.cognisearch.thesaurusreader.providers;
 
+import java.util.Properties;
+
 import org.infominer.cognisearch.thesaurusreader.core.Thesaurus;
+import org.infominer.cognisearch.thesaurusreader.exceptions.ThesaurusInitializationException;
 
 /**
  * 
@@ -10,5 +13,11 @@ import org.infominer.cognisearch.thesaurusreader.core.Thesaurus;
 public interface ThesaurusProvider 
 {
 
-	Thesaurus newInstance();
+	/**
+	 * Initialize a new 
+	 * @param initializationProperties The properties needed to initialize the Thesaurus
+	 * @return The Thesaurus instance
+	 * @throws ThesaurusInitializationException 
+	 */
+	Thesaurus newInstance(Properties initializationProperties) throws ThesaurusInitializationException;
 }
