@@ -34,4 +34,9 @@ public interface Thesaurus
 	 */
 	WordnetHyponymFinder getHyponymFinder();
 	
+	/**
+	 * Close the current dictionary file handle and release resources
+	 */
+	void close();
+	
 }

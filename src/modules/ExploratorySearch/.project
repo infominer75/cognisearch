@@ -3,6 +3,7 @@
 	<name>ExploratorySearch</name>
 	<comment></comment>
 	<projects>
+		<project>ThesaurusReader</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

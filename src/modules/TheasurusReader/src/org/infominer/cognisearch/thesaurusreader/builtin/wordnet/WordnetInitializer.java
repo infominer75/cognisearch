@@ -35,19 +35,22 @@ public class WordnetInitializer implements ThesaurusInitializer
 	
 	private final WordnetPropertyFileParser propertyFileParser;
 	
+	private final Properties wordnetInitProperties;
 	private  static Dictionary wordnet;
 	
 	
 	public WordnetInitializer(Properties thesaurusProperties) throws ThesaurusInitializationException
 	{
 		
+
+		wordnetInitProperties = thesaurusProperties;
+		
 		if(!thesaurusProperties.containsKey(WORDNET_DICT_LOCATION))
 		{
 			throw new ThesaurusInitializationException(WORDNET_DICT_LOCATION_UNSPECIFIED);
 		
 		}
-
-		String wordnetDictionaryLocation = thesaurusProperties.getProperty(WORDNET_DICT_LOCATION);
+		
 		
 		try
 		{
@@ -63,16 +66,25 @@ public class WordnetInitializer implements ThesaurusInitializer
 
 	}
 	
-	public WordnetInitializer( WordnetPropertyFileParser propertyFileParser) throws ThesaurusInitializationException 
+	public WordnetInitializer( WordnetPropertyFileParser propertyFileParser,Properties thesaurusProperties) 
+						throws ThesaurusInitializationException 
 	{
 		
-			this.propertyFileParser = propertyFileParser;	
+		if(!thesaurusProperties.containsKey(WORDNET_DICT_LOCATION))
+		{
+			throw new ThesaurusInitializationException(WORDNET_DICT_LOCATION_UNSPECIFIED);
+		
+		}
+		
+		this.wordnetInitProperties = thesaurusProperties;
+		this.propertyFileParser = propertyFileParser;
+			
 		
 	}
 	
 	public void initializeThesaurus() throws  ThesaurusInitializationException 
 	{
-		propertyFileParser.setWordnetDictionaryPath(WORDNET_DICT_LOCATION);
+		propertyFileParser.setWordnetDictionaryPath(wordnetInitProperties.getProperty(WORDNET_DICT_LOCATION));
 		propertyFileParser.save();	
 		
 		//initialize the wordnet dictionary based on the configuration file

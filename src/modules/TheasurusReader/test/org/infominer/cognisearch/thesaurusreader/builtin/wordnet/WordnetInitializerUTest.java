@@ -34,7 +34,9 @@ public class WordnetInitializerUTest
 	public void setUp() throws Exception
 	{
 		MockitoAnnotations.initMocks(this);
-		underTest =  new WordnetInitializer(propertyFileParserMock);
+		Properties properties = new Properties();
+		properties.setProperty("DictionaryPath", "/home/test/");
+		underTest =  new WordnetInitializer(propertyFileParserMock,properties);
 	}
 	
 	@Test

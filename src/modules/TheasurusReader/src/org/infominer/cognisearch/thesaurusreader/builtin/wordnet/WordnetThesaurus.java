@@ -53,5 +53,10 @@ public class WordnetThesaurus implements Thesaurus
 	{
 		return wordnetHyponymFinder;
 	}
+	
+	public void close()
+	{
+		wordnetThesaurus.close();
+	}
 
 }

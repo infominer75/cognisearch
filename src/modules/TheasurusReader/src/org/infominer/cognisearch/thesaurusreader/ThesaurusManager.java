@@ -3,6 +3,9 @@ package org.infominer.cognisearch.thesaurusreader;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Logger;
 
 import org.infominer.cognisearch.thesaurusreader.core.Thesaurus;
 import org.infominer.cognisearch.thesaurusreader.exceptions.ThesaurusInitializationException;
@@ -26,9 +29,13 @@ public class ThesaurusManager
 	
 	private static final String DEFAULT_THESAURUS_PROVIDER_NAME = "Wordnet";
 	private static final String DEFAULT_THESAURUS_PROVIDER_CLASS_NAME = "org.infominer.cognisearch.thesaurusreader.providers.builtin.WordnetThesaurusProvider";
+	private static final Handler logHandler = new ConsoleHandler();
+	private static final Logger logger = Logger.getLogger(ThesaurusManager.class.getName());
 	
 	//register the Wordnet Thesaurus by default.
+	static
 	{
+		logger.addHandler(logHandler);
 		registerThesaurusProvider();
 	}
 	
@@ -45,6 +52,7 @@ public class ThesaurusManager
 	 */
 	public static void registerThesaurusProvider()
 	{
+		logger.info("Registering default thesaurus provider Wordnet");
 		registerThesaurusProvider(DEFAULT_THESAURUS_PROVIDER_NAME, DEFAULT_THESAURUS_PROVIDER_CLASS_NAME);
 	}
 	
@@ -105,10 +113,15 @@ public class ThesaurusManager
 	 * Returns an instance of the built-in Wordnet thesaurus
 	 * @param initializationProperties The properties needed to initialize the Thesaurus
 	 * @return An instance of the {@link: WordnetThesaurus} service.
+	 * @throws ThesaurusInitializationException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 * @throws ClassNotFoundException 
+	 * @throws IllegalArgumentException 
 	 */
-	public static Thesaurus newThesaurus(Properties initializationProperties)
+	public static Thesaurus newThesaurus(Properties initializationProperties) throws IllegalArgumentException, ClassNotFoundException, InstantiationException, IllegalAccessException, ThesaurusInitializationException
 	{
-		return null;
+		return newThesaurus(DEFAULT_THESAURUS_PROVIDER_NAME, initializationProperties);
 	}
 	
 	/**
@@ -149,6 +162,7 @@ public class ThesaurusManager
 		
 		ClassLoader classLoader = ClassLoader.getSystemClassLoader();
 		String fullyQualifiedProviderClassName = providers.get(DEFAULT_THESAURUS_PROVIDER_NAME);
+		logger.info("Initializing Thesaurus provider :" + fullyQualifiedProviderClassName);
 		Class providerClass= classLoader.loadClass(fullyQualifiedProviderClassName);
 		ThesaurusProvider provider = (ThesaurusProvider)(providerClass.newInstance());
 		

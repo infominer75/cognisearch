@@ -16,7 +16,7 @@ import org.infominer.cognisearch.search.core.SearchRelevanceComparator;
 public class SearchResultSet implements SortedMap<Double, SortedSet<SearchResult>> 
 {
 	
-	private final SortedMap<Double, SortedSet<SearchResult>> searchResultSet;
+	private final SortedMap<Double, SortedSet<SearchResult>> searchResults;
 	private final Comparator<SearchResult> comparator;
 	
 	public SearchResultSet()
@@ -26,103 +26,103 @@ public class SearchResultSet implements SortedMap<Double, SortedSet<SearchResult
 	
 	public SearchResultSet(Comparator<SearchResult> comparator)
 	{
-		this.searchResultSet = new TreeMap<Double, SortedSet<SearchResult>>();
+		this.searchResults = new TreeMap<Double, SortedSet<SearchResult>>();
 		this.comparator = comparator;
 	}
 
 	public void clear() 
 	{
-		searchResultSet.clear();
+		searchResults.clear();
 		
 	}
 
 	public boolean containsKey(Object arg0) 
 	{
-		return searchResultSet.containsKey(arg0);
+		return searchResults.containsKey(arg0);
 	}
 
 	public boolean containsValue(Object arg0) 
 	{
-		return searchResultSet.containsValue(arg0);
+		return searchResults.containsValue(arg0);
 	}
 
 	public SortedSet<SearchResult> get(Object arg0) 
 	{
 		
-		return searchResultSet.get(arg0);
+		return searchResults.get(arg0);
 	}
 
 	public boolean isEmpty() 
 	{
-		return searchResultSet.isEmpty();
+		return searchResults.isEmpty();
 	}
 
 	public SortedSet<SearchResult> put(Double arg0, SortedSet<SearchResult> arg1) 
 	{
-		return searchResultSet.put(arg0, arg1);
+		return searchResults.put(arg0, arg1);
 	}
 
 	public void putAll(Map<? extends Double, ? extends SortedSet<SearchResult>> m) 
 	{
-		searchResultSet.putAll(m);
+		searchResults.putAll(m);
 		
 	}
 
 	public SortedSet<SearchResult> remove(Object arg0) 
 	{
-		return searchResultSet.remove(arg0);
+		return searchResults.remove(arg0);
 	}
 
 	public int size() 
 	{
-		return searchResultSet.size();
+		return searchResults.size();
 	}
 
 	public Comparator<? super Double> comparator() 
 	{
-		return searchResultSet.comparator();
+		return searchResults.comparator();
 	}
 
 	
 
 	public Set<Entry<Double, SortedSet<SearchResult>>> entrySet() 
 	{
-		return searchResultSet.entrySet();
+		return searchResults.entrySet();
 	}
 
 	public Double firstKey() 
 	{
-		return searchResultSet.firstKey();
+		return searchResults.firstKey();
 	}
 
 	public SortedMap<Double, SortedSet<SearchResult>> headMap(Double arg0) 
 	{
-		return searchResultSet.headMap(arg0);
+		return searchResults.headMap(arg0);
 	}
 
 	public Set<Double> keySet() 
 	{
-		return searchResultSet.keySet();
+		return searchResults.keySet();
 	}
 
 	public Double lastKey() 
 	{
-		return searchResultSet.lastKey();
+		return searchResults.lastKey();
 	}
 
 	public SortedMap<Double, SortedSet<SearchResult>> subMap(Double arg0, Double arg1) 
 	{
-		return searchResultSet.subMap(arg0, arg1);
+		return searchResults.subMap(arg0, arg1);
 	}
 
 	public SortedMap<Double, SortedSet<SearchResult>> tailMap(Double arg0) 
 	{
-		return searchResultSet.tailMap(arg0);
+		return searchResults.tailMap(arg0);
 	}
 
 	public Collection<SortedSet<SearchResult>> values() 
 	{
-		return searchResultSet.values();
+		return searchResults.values();
 	}
 	
 	
@@ -130,14 +130,15 @@ public class SearchResultSet implements SortedMap<Double, SortedSet<SearchResult
 	{
 		boolean added = true;
 		
-		if(!searchResultSet.containsKey(searchResult.getRelevanceScore()))
+		if(!searchResults.containsKey(searchResult.getRelevanceScore()))
 		{
 			SortedSet<SearchResult> searchResultSet = new TreeSet<SearchResult>(comparator);
 			added = searchResultSet.add(searchResult);
+			searchResults.put(searchResult.getRelevanceScore(), searchResultSet);
 		}
 		else
 		{
-			added = searchResultSet.get(searchResult.getRelevanceScore()).add(searchResult);
+			added = searchResults.get(searchResult.getRelevanceScore()).add(searchResult);
 		}
 		
 		return added;
@@ -148,14 +149,14 @@ public class SearchResultSet implements SortedMap<Double, SortedSet<SearchResult
 	{
 		boolean removed = true;
 		
-		if(!searchResultSet.containsKey(searchResult.getRelevanceScore()))
+		if(!searchResults.containsKey(searchResult.getRelevanceScore()))
 		{
 			removed = false;
 			
 		}
 		else
 		{
-			removed = searchResultSet.get(searchResult.getRelevanceScore()).remove(searchResult);
+			removed = searchResults.get(searchResult.getRelevanceScore()).remove(searchResult);
 		}
 			
 		return removed;

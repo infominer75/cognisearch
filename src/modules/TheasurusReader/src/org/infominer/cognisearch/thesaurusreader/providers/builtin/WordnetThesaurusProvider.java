@@ -24,15 +24,17 @@ public class WordnetThesaurusProvider implements ThesaurusProvider
 	}
 
 	@Override
-	public Thesaurus newInstance(Properties initializationProperties) throws ThesaurusInitializationException 
+	public Thesaurus newInstance(Properties initializationProperties) 
+			throws ThesaurusInitializationException 
 	{
 		if(!initializationProperties.containsKey(WORDNET_DICTIONARY_PATH_PROPERTY))
 		{
-			throw new IllegalArgumentException("Default Thesaurus initialization properties does not " +
+			throw new ThesaurusInitializationException("Default Thesaurus initialization properties does not " +
 					"contain entry for dictionary path. Add the  \"DictionaryPath\" property with the value pointing" +
 					"to the correct dictionary path");
 		}
 		WordnetInitializer wordnetInitializer = new WordnetInitializer(initializationProperties);
+		wordnetInitializer.initializeThesaurus();
 		return wordnetInitializer.getWordnetDictionary();
 	}
 
