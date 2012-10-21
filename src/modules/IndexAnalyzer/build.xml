@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     Oct 14, 2012 7:09:09 PM                                                        
+
+     IndexAnalyzerBuild    
+     Build file for the CogniSearchUtils project
+                   
+     infominer                                                                
+     ====================================================================== -->
+<project name="IndexAnalyzerBuild" default="build" basedir=".">
+    <description>
+            Builds the IndexAnalyzer project.
+    </description>
+	<property name="src" location="${basedir}"/>
+	<property name="project" value="IndexAnalyzer"/>
+	<property name="build" location="${basedir}${file.separator}build"/>
+	<property name="dist" location="${basedir}${file.separator}..${file.separator}..${file.separator}dist"/>
+	<property name="classpath" value="${basedir}${file.separator}..${file.separator}..${file.separator}..${file.separator}lib${file.separator}"/>
+
+	<path id="master-classpath">
+		<fileset dir="${classpath}">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+	<!-- =================================
+		    target : init
+		 =================================
+	-->
+	<target name="init">
+		<mkdir dir="${build}"/>
+	</target>
+	
+    <!-- ================================= 
+          target: build              
+         ================================= 
+    -->
+    <target name="build" depends="init" description="Build the Java source and test files">
+        <antcall target="compile"></antcall>
+    	<antcall target="dist"></antcall>
+    </target>
+
+	<target name="compile" depends="init" description="Compiles the Java source and test files">
+		<echo>Compiling Java source and test files for IndexAnalyzer</echo>
+		<javac srcdir="${src}" destdir="${build}">
+			<classpath refid="master-classpath"/>
+		</javac>
+	</target>
+	
+	<target name="dist" depends="compile" description="Builds the jar file for the module">
+		<echo>Building jar file</echo>
+		<mkdir dir="${dist}"/>
+		<jar jarfile="${dist}${file.separator}${project}.jar" basedir="${build}"/>
+	</target>
+	
+	<target name="clean" description="Clean all the output directories and dist directories">
+		<delete dir="${build}"></delete>
+		<echo> Deleting distribution jar file ${dist}${file.separator}${project}.jar</echo>
+		<delete file="${dist}${file.separator}${project}.jar"></delete>
+	</target>
+	
+	<target name="rebuild" description="Cleans and rebuilds the entire java source and test files and the jar distribution">	
+		<antcall target="clean"/>
+		<antcall target="build"/>
+		<antcall target="dist"/>
+	</target>
+	
+	<target name="rebuild_src" description="Cleans and rebuilds the entire java source and test files but not the jar">
+		<echo>Recompiling java source and test files</echo>
+		<delete dir="${build}"/>
+		<antcall target="compile"/>
+	</target>
+
+</project>
