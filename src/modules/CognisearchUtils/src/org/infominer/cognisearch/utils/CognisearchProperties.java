@@ -25,7 +25,7 @@ public class CognisearchProperties implements Map<String, Properties>
 
 	private final Map<String, Properties> cognisearchProperties;
 	
-	CognisearchProperties() 
+	public CognisearchProperties() 
 	{
 		cognisearchProperties = new HashMap<String, Properties>();
 	}

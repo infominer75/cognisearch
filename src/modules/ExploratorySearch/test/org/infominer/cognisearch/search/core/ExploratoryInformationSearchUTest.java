@@ -60,6 +60,7 @@ public class ExploratoryInformationSearchUTest extends LuceneTest
 			for(SearchResult searchResult : resultSet)
 			{
 				fileNamesInResultSet.add(searchResult.getFileName());
+				assertTrue(searchResult.getMatchedDocumentFragments().length > 0);
 			}
 		}
 		

@@ -8,6 +8,8 @@ import java.util.Properties;
 import java.util.Set;
 
 
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.queryParser.ParseException;
@@ -18,6 +20,12 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.search.BooleanClause.Occur;
+import org.apache.lucene.search.highlight.Fragmenter;
+import org.apache.lucene.search.highlight.Highlighter;
+import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
+import org.apache.lucene.search.highlight.QueryScorer;
+import org.apache.lucene.search.highlight.SimpleSpanFragmenter;
+import org.apache.lucene.search.highlight.TokenSources;
 import org.apache.lucene.util.Version;
 import org.infominer.cognisearch.indexanalyzer.TermSearcher;
 import org.infominer.cognisearch.search.core.exceptions.SearchException;
@@ -95,12 +103,16 @@ public class ExploratoryInformationSearch implements InformationSearch
 		{
 			throw new SearchException(initEx);
 		}
+		catch(InvalidTokenOffsetsException invalidTokenOffsetsEx)
+		{
+			throw new SearchException(invalidTokenOffsetsEx);
+		}
 		
 		return resultSet;
 		 
 	}
 	
-	public SearchResultSet search(String keyWord,Integer hitsPerPage) throws ParseException, IOException, ThesaurusOperationException, IllegalArgumentException, ClassNotFoundException, InstantiationException, IllegalAccessException, ThesaurusInitializationException 
+	public SearchResultSet search(String keyWord,Integer hitsPerPage) throws ParseException, IOException, ThesaurusOperationException, IllegalArgumentException, ClassNotFoundException, InstantiationException, IllegalAccessException, ThesaurusInitializationException, InvalidTokenOffsetsException 
 	{
 		Query query = buildQueryForTerm(keyWord);
 		Set<ScoreDoc> documentSet = termSearcher.search(query, buildTopScoreDocCollector(hitsPerPage));
@@ -114,8 +126,9 @@ public class ExploratoryInformationSearch implements InformationSearch
 			
 			String fileName = document.get(FILE_NAME_FIELD);
 			
+			String[] matchedTextFragments = getMatchedTextFragmentsForQuery(query, document, SEARCH_TERM_FIELD, new StandardAnalyzer(Version.LUCENE_35));
 			
-			SearchResult searchResult = new SearchResult(fileName, (double) scoreDoc.score);
+			SearchResult searchResult = new SearchResult(fileName, (double) scoreDoc.score, matchedTextFragments);
 			
 			searchResultSet.addSearchResult(searchResult);
 		}
@@ -160,6 +173,23 @@ public class ExploratoryInformationSearch implements InformationSearch
 		return relatedTerms;
 		
 		
+	}
+	
+	private String[] getMatchedTextFragmentsForQuery(Query query, Document matchedDocument, 
+			String fieldName, Analyzer analyzer) throws IOException, InvalidTokenOffsetsException
+	{
+		String fileContent = matchedDocument.get(fieldName);
+		TokenStream stream = TokenSources.getTokenStream(fieldName, fileContent, analyzer);
+		QueryScorer scorer = new QueryScorer(query, fieldName);
+		
+		Fragmenter fragmenter = new SimpleSpanFragmenter(scorer);
+		Highlighter highlighter = new Highlighter(scorer);
+		highlighter.setTextFragmenter(fragmenter);
+		highlighter.setMaxDocCharsToAnalyze(Integer.MAX_VALUE);
+		
+		String[] matchedFragments= highlighter.getBestFragments(stream, fileContent, 5);
+		
+		return matchedFragments;
 	}
 
 }

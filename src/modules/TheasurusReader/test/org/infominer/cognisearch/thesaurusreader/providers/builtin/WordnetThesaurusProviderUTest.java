@@ -48,6 +48,7 @@ public class WordnetThesaurusProviderUTest
 		Thesaurus thesaurus = underTest.newInstance(properties);
 		
 		assertTrue(thesaurus instanceof WordnetThesaurus);
+		thesaurus.close();
 	}
 	
 }

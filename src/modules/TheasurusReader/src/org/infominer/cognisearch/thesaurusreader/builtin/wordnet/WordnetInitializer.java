@@ -54,7 +54,7 @@ public class WordnetInitializer implements ThesaurusInitializer
 		
 		try
 		{
-			String propertyFileURI = "file_properties.xml";
+			String propertyFileURI = "/file_properties.xml";
 			this.propertyFileParser = new WordnetPropertyFileParser(this.getClass().getResourceAsStream(propertyFileURI));
 			
 		}

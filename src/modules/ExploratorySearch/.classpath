@@ -4,7 +4,7 @@
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/IndexAnalyzer"/>
-	<classpathentry kind="lib" path="/Users/prahaladdeshpande/java_progs/cognisearch/lib/IndexAnalyzer.jar"/>
+	<classpathentry kind="lib" path="/Users/prahaladdeshpande/java_progs/cognisearch/src/dist/IndexAnalyzer.jar"/>
 	<classpathentry kind="lib" path="/Users/prahaladdeshpande/java_progs/cognisearch/lib/DocumentIndexer.jar"/>
 	<classpathentry kind="lib" path="/Users/prahaladdeshpande/java_progs/cognisearch/lib/junit-4.10.jar"/>
 	<classpathentry kind="lib" path="/Users/prahaladdeshpande/java_progs/cognisearch/lib/junit-dep-4.10.jar"/>
@@ -12,6 +12,8 @@
 	<classpathentry kind="lib" path="/Users/prahaladdeshpande/java_progs/cognisearch/lib/lucene-core-3.5.0.jar"/>
 	<classpathentry kind="lib" path="/Users/prahaladdeshpande/java_progs/cognisearch/lib/mockito-all-1.9.0.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ThesaurusReader"/>
-	<classpathentry kind="lib" path="/Users/prahaladdeshpande/java_progs/cognisearch/lib/ThesaurusReader.jar"/>
+	<classpathentry kind="lib" path="/Users/prahaladdeshpande/java_progs/cognisearch/src/dist/ThesaurusReader.jar"/>
+	<classpathentry kind="lib" path="/Users/prahaladdeshpande/java_progs/Java Libs/Lucene/lucene-memory-3.5.0.jar"/>
+	<classpathentry kind="lib" path="/Users/prahaladdeshpande/java_progs/Java Libs/Lucene/lucene-highlighter-3.5.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

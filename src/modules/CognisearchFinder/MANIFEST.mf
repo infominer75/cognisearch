@@ -1,0 +1,2 @@
+Main-Class: org.infominer.cognisearch.finder.CognisearchSearchEngine
+Class-Path: ExploratorySearch.jar ThesaurusReader.jar IndexAnalyzer.jar lucene-core-3.5.0..jar commons-logging.jar jwnl.jar

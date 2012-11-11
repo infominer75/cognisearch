@@ -140,8 +140,18 @@ public class FileContentIndexer implements ContentIndexer
 			InputStreamReader inputReader = new InputStreamReader(new FileInputStream(currentFile), "UTF-8");
 		
 			BufferedReader fileReader = new BufferedReader(inputReader);
+			
+			String line ="";
+			StringBuilder fileContent = new StringBuilder(line);
+			
+			while((line = fileReader.readLine()) != null)
+			{
+				fileContent.append(line);
+			}
 		
-			document.add(new Field("content", fileReader,Field.TermVector.YES));
+			fileReader.close();
+			//document.add(new Field("content", fileReader,Field.TermVector.YES));
+			document.add(new Field("content",fileContent.toString(), Field.Store.YES,Field.Index.ANALYZED,Field.TermVector.WITH_POSITIONS_OFFSETS));
 		}
 		catch(FileNotFoundException fex)
 		{
@@ -150,6 +160,11 @@ public class FileContentIndexer implements ContentIndexer
 		catch(UnsupportedEncodingException uex)
 		{
 			throw new IndexingException(uex.getMessage());
+		} 
+		catch (IOException iex) 
+		{
+			// TODO Auto-generated catch block
+			throw new IndexingException(iex.getMessage());
 		}
 	}
 	

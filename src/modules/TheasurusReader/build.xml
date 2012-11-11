@@ -2,7 +2,7 @@
 <!-- ====================================================================== 
      Oct 14, 2012 7:09:09 PM                                                        
 
-     CogniSearchUtilsBuild    
+     ThesaurusReaderBuild    
      Build file for the ThesaurusReader project
                    
      infominer                                                                
@@ -16,9 +16,11 @@
 	<property name="build" location="${basedir}${file.separator}build"/>
 	<property name="dist" location="${basedir}${file.separator}..${file.separator}..${file.separator}dist"/>
 	<property name="classpath" value="${basedir}${file.separator}..${file.separator}..${file.separator}..${file.separator}lib${file.separator}"/>
-
 	<path id="master-classpath">
 		<fileset dir="${classpath}">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${dist}">
 			<include name="*.jar"/>
 		</fileset>
 	</path>
@@ -41,7 +43,7 @@
 
 	<target name="compile" depends="init" description="Compiles the Java source and test files">
 		<echo>Compiling Java source and test files for ThesaurusReader</echo>
-		<javac srcdir="${src}" destdir="${build}">
+		<javac srcdir="${src}" destdir="${build}" debug="true" debuglevel="lines,vars,source">
 			<classpath refid="master-classpath"/>
 		</javac>
 	</target>
@@ -49,7 +51,15 @@
 	<target name="dist" depends="compile" description="Builds the jar file for the module">
 		<echo>Building jar file</echo>
 		<mkdir dir="${dist}"/>
-		<jar jarfile="${dist}${file.separator}${project}.jar" basedir="${build}"/>
+		<copy todir="${build}" flatten="true">
+			<fileset dir="${src}">
+				<include name="**${file.separator}file_properties.xml"/>
+			</fileset>
+		</copy>
+		<jar jarfile="${dist}${file.separator}${project}.jar">
+			<fileset dir= "${build}"></fileset>
+			<fileset dir= "${basedir}${file.separator}config"></fileset>
+		</jar>
 	</target>
 	
 	<target name="clean" description="Clean all the output directories and dist directories">

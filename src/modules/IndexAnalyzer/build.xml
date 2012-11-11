@@ -21,6 +21,9 @@
 		<fileset dir="${classpath}">
 			<include name="*.jar"/>
 		</fileset>
+		<fileset dir="${dist}">
+			<include name="*.jar"/>
+		</fileset>
 	</path>
 	<!-- =================================
 		    target : init
@@ -41,7 +44,7 @@
 
 	<target name="compile" depends="init" description="Compiles the Java source and test files">
 		<echo>Compiling Java source and test files for IndexAnalyzer</echo>
-		<javac srcdir="${src}" destdir="${build}">
+		<javac srcdir="${src}" destdir="${build}" debug="true" debuglevel="lines,vars,source">
 			<classpath refid="master-classpath"/>
 		</javac>
 	</target>

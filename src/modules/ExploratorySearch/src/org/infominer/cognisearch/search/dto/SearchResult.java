@@ -12,11 +12,19 @@ public class SearchResult
 	
 	private final Double relevanceScore;
 	
+	private final String[] matchedDocumentFragments;
 	
-	public SearchResult(String fileName, Double relevanceRank)
+	
+	public SearchResult(String fileName, Double relevanceScore)
+	{
+		this(fileName, relevanceScore, new String[]{});
+	}
+	
+	public SearchResult(String fileName, Double relevanceScore, String[] matchedDocumentFragments)
 	{
 		this.fileName = fileName;
-		this.relevanceScore = relevanceRank;
+		this.relevanceScore = relevanceScore;
+		this.matchedDocumentFragments = matchedDocumentFragments;
 	}
 
 	public String getFileName() 
@@ -30,7 +38,10 @@ public class SearchResult
 		return relevanceScore;
 	}
 
-
+	public String[] getMatchedDocumentFragments()
+	{
+		return matchedDocumentFragments;
+	}
 	
 	@Override
 	public boolean equals(Object obj) 
@@ -64,6 +75,16 @@ public class SearchResult
 		stringRepresentation.append(String.format("%s:%s", "File", fileName));
 		stringRepresentation.append(System.getProperty("line.separator"));
 		stringRepresentation.append(String.format("%s:%f", "Relevance ranking:", relevanceScore));
+		stringRepresentation.append(System.getProperty("line.separator"));
+		stringRepresentation.append(String.format("Matched text fragments:"));
+		stringRepresentation.append(System.getProperty("line.separator"));
+		stringRepresentation.append("\t\t\t\t");
+		for(String fragment: matchedDocumentFragments)
+		{
+			stringRepresentation.append(fragment);
+			stringRepresentation.append(System.getProperty("line.separator"));
+			stringRepresentation.append("\t\t\t");
+		}
 		
 		return stringRepresentation.toString();
 	}

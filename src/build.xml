@@ -6,6 +6,7 @@
                    
      infominer                                                                
      ====================================================================== -->
+
 <project name="CogniSearchBuild" default="build" basedir=".">
 	<property name="distdir" location="${basedir}${file.separator}dist"/>
     <description>
@@ -13,7 +14,9 @@
     </description>
 	
 	<property name="modulesdir" value="${basedir}${file.separator}modules"/>
-
+	<property name="distdir" value="${basedir}${file.separator}modules${file.separator}src${file.separator}dist"/>
+	<property name="configdir" value="${basedir}${file.separator}configuration"/>
+	<property name="3rdptdir" value="${basedir}${file.separator}..${file.separator}lib"/>
 	
 	<!-- =================================
 		    target : init
@@ -38,7 +41,8 @@
        <ant antfile="${modulesdir}${file.separator}CognisearchUtils${file.separator}build.xml" target="build" inheritall="false"/>
        <ant antfile="${modulesdir}${file.separator}IndexAnalyzer${file.separator}build.xml" target="build" inheritall="false"/>
        <ant antfile="${modulesdir}${file.separator}TheasurusReader${file.separator}build.xml" target="build" inheritall="false"/>
-       <ant antfile="${modulesdir}${file.separator}ExploratorySearch${file.separator}build.xml" target="build" inheritall="false"/>	
+       <ant antfile="${modulesdir}${file.separator}ExploratorySearch${file.separator}build.xml" target="build" inheritall="false"/>
+       <ant antfile="${modulesdir}${file.separator}CognisearchFinder${file.separator}build.xml" target="build" inheritall="false"/>	
     </target>
 
     <target name="rebuild" depends="init" description="Build the Java source and test files">
@@ -48,7 +52,10 @@
        <ant antfile="${modulesdir}${file.separator}CognisearchUtils${file.separator}build.xml" target="rebuild" inheritall="false"/>
        <ant antfile="${modulesdir}${file.separator}IndexAnalyzer${file.separator}build.xml" target="rebuild" inheritall="false"/>
        <ant antfile="${modulesdir}${file.separator}TheasurusReader${file.separator}build.xml" target="rebuild" inheritall="false"/>
-    	<ant antfile="${modulesdir}${file.separator}ExploratorySearch${file.separator}build.xml" target="rebuild" inheritall="false"/>
+       <ant antfile="${modulesdir}${file.separator}ExploratorySearch${file.separator}build.xml" target="rebuild" inheritall="false"/>
+       <ant antfile="${modulesdir}${file.separator}CognisearchFinder${file.separator}build.xml" target="rebuild" inheritall="false"/>
+       <antcall target="copy_config"/>
+       <antcall target="copy_3rd_pty_jars"></antcall>	
     </target>
 	
 
@@ -60,6 +67,7 @@
        <ant antfile="${modulesdir}${file.separator}IndexAnalyzer${file.separator}build.xml" target="compile" inheritall="false"/>
        <ant antfile="${modulesdir}${file.separator}TheasurusReader${file.separator}build.xml" target="compile" inheritall="false"/>
        <ant antfile="${modulesdir}${file.separator}ExploratorySearch${file.separator}build.xml" target="compile" inheritall="false"/>
+       <ant antfile="${modulesdir}${file.separator}CognisearhFinder${file.separator}build.xml" target="compile" inheritall="false"/>
     </target>
     
     <target name="clean" depends="init" description="Build the Java source and test files">
@@ -70,6 +78,7 @@
        <ant antfile="${modulesdir}${file.separator}IndexAnalyzer${file.separator}build.xml" target="clean" inheritall="false"/>
        <ant antfile="${modulesdir}${file.separator}TheasurusReader${file.separator}build.xml" target="clean" inheritall="false"/>
        <ant antfile="${modulesdir}${file.separator}ExploratorySearch${file.separator}build.xml" target="clean" inheritall="false"/>
+       <ant antfile="${modulesdir}${file.separator}CognisearchFinder${file.separator}build.xml" target="clean" inheritall="false"/>
     </target>
     
 	<target name="rebuild_src" depends="init" description="Build the Java source and test files">
@@ -80,11 +89,42 @@
        <ant antfile="${modulesdir}${file.separator}IndexAnalyzer${file.separator}build.xml" target="rebuild_src" inheritall="false"/>
        <ant antfile="${modulesdir}${file.separator}TheasurusReader${file.separator}build.xml" target="rebuild_src" inheritall="false"/>
 	   <ant antfile="${modulesdir}${file.separator}ExploratorySearch${file.separator}build.xml" target="rebuild_src" inheritall="false"/>
+	   <ant antfile="${modulesdir}${file.separator}CognisearchFinder${file.separator}build.xml" target="rebuild_src" inheritall="false"/>
+		
     </target>
 	
 	
+	<target name="dist" depends="init" description="Build the Java source and test files">
+       <get-build-modules>
+       </get-build-modules>
+       <echo> The list of build modules is ${build-modules}</echo>
+       <ant antfile="${modulesdir}${file.separator}CognisearchUtils${file.separator}build.xml" target="dist" inheritall="false"/>
+       <ant antfile="${modulesdir}${file.separator}IndexAnalyzer${file.separator}build.xml" target="dist" inheritall="false"/>
+       <ant antfile="${modulesdir}${file.separator}TheasurusReader${file.separator}build.xml" target="dist" inheritall="false"/>
+	   <ant antfile="${modulesdir}${file.separator}ExploratorySearch${file.separator}build.xml" target="dist" inheritall="false"/>
+	   <ant antfile="${modulesdir}${file.separator}CognisearchFinder${file.separator}build.xml" target="dist" inheritall="false"/>
+	   <antcall target="copy_config"></antcall>
+	   <antcall target="copy_3rd_pty_jars"></antcall>
+	</target>
+	
+	<target name="copy_config">
+		<copy todir="${distdir}">
+			<fileset dir="${configdir}"/>
+		</copy>
+	</target>
     
+	<target name="copy_3rd_pty_jars">
+		<copy todir="${distdir}">
+			<fileset dir="${3rdptdir}"/>
+		</copy>
+		
+	</target>
     
+	<target name="clean_bins" description="Deletes the bin directory created by Eclipse IDE">
+		<delete>
+				<fileset dir="${basedir}" includes="**${file.separator}bin"/>
+		</delete>
+	</target>
     
     
 	<!--=================================

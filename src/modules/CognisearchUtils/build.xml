@@ -43,7 +43,7 @@
 
 	<target name="compile" depends="init" description="Compiles the Java source and test files">
 		<echo>Compiling Java source and test files for CognisearchUtils</echo>
-		<javac srcdir="${src}" destdir="${build}">
+		<javac srcdir="${src}" destdir="${build}" debug="true" debuglevel="lines,vars,source">
 			<classpath refid="master-classpath"/>
 		</javac>
 	</target>
